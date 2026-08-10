@@ -162,35 +162,7 @@ if ($current_service):
       <p class="sec-sub rv">This form goes straight to the <?php echo esc_html($s['name']); ?> practice lead. Reply within one business day.</p>
       
       <div class="ct-grid">
-        <div class="ct-form rv">
-          <form onsubmit="return submitForm(event)">
-            <div class="f-row">
-              <div class="field"><label>Full name</label><input required type="text" placeholder="Your name"></div>
-              <div class="field"><label>Work email</label><input required type="email" placeholder="you@company.com"></div>
-            </div>
-            <div class="f-row">
-              <div class="field"><label>Phone / WhatsApp</label><input type="tel" placeholder="+91"></div>
-              <div class="field">
-                <label>Service</label>
-                <select>
-                  <?php
-                  foreach ($SERVICES as $item) {
-                    $selected = ($item['name'] === $s['name']) ? 'selected' : '';
-                    echo '<option ' . $selected . '>' . esc_html($item['name']) . '</option>';
-                  }
-                  ?>
-                </select>
-              </div>
-            </div>
-            <div class="field"><label>Project details</label><textarea placeholder="Tell us where you're headed…"></textarea></div>
-            <button type="submit" class="btn btn-grad magnet" style="width:100%;justify-content:center">Request a Proposal <span class="arr">→</span></button>
-          </form>
-          <div class="form-ok">
-            <div class="tick">✓</div>
-            <h3 style="margin-bottom:10px">Request received</h3>
-            <p style="color:var(--muted);font-size:.9rem">We'll reply within one business day.</p>
-          </div>
-        </div>
+        <?php echo do_shortcode('[contact-form-7 id="2fee701" title="Service-page form"]'); ?>
 
         <div class="ct-info">
           <a class="ct-card rv" href="<?php echo esc_url($contact_url); ?>"><div class="ic ic-cyan">📅</div><div><b>Book a discovery call</b><small>Pick a slot on our calendar</small></div></a>

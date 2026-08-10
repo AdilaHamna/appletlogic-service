@@ -52,7 +52,7 @@ $contact_url    = function_exists('get_custom_page_link_by_template') ? get_cust
 <nav id="nav">
   <div class="nav-in">
     <a class="logo" href="<?php echo esc_url($home_url); ?>">
-      <img src="/wp-content/uploads/2026/08/WhatsApp-Image-2026-06-05-at-10.51.04-AM-2-1.svg" alt="AppletLogic Logo" style="height: 38px; width: auto; vertical-align: middle;">
+      <img src="/wp-content/uploads/2026/08/WhatsApp-Image-2026-06-05-at-10.51.04-AM-2-1.svg" alt="AppletLogic Logo" style="height: 73px; width: auto; vertical-align: middle;">
     </a>
     <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
     <div class="nav-links" id="navLinks">
