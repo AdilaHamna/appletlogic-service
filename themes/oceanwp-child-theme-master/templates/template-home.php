@@ -8,6 +8,8 @@ get_header('custom');
 
 include_once get_stylesheet_directory() . '/inc/data.php';
 global $SERVICES, $INDUSTRIES, $PROJECTS, $TESTIMONIALS, $TECHS1, $TECHS2;
+$SERVICES = function_exists('appletlogic_get_services') ? appletlogic_get_services() : $SERVICES;
+$TESTIMONIALS = function_exists('appletlogic_get_testimonials') ? appletlogic_get_testimonials() : $TESTIMONIALS;
 
 $services_url   = function_exists('get_custom_page_link_by_template') ? get_custom_page_link_by_template('templates/template-service.php', 'services') : home_url('/services/');
 $industries_url = function_exists('get_custom_page_link_by_template') ? get_custom_page_link_by_template('templates/template-industries.php', 'industries') : home_url('/industries/');
@@ -110,7 +112,7 @@ $contact_url    = function_exists('get_custom_page_link_by_template') ? get_cust
         if (isset($SERVICES) && is_array($SERVICES)) {
           for ($j = 0; $j < min(6, count($SERVICES)); $j++) {
             $s = $SERVICES[$j];
-            $detail_url = esc_url(add_query_arg('slug', $s['slug'], $services_url));
+            $detail_url = esc_url(get_permalink($s['id']));
             $delay_d = $j % 2 ? 'data-d="1"' : '';
             echo '<article class="card spot svc rv tilt" ' . $delay_d . ' onclick="location.href=\'' . $detail_url . '\'">';
             echo '<div class="top"><div class="ic ' . esc_attr($s['cls']) . '" style="font-size:1.3rem">' . esc_html($s['icon']) . '</div><span class="idx">0' . ($j + 1) . '</span></div>';

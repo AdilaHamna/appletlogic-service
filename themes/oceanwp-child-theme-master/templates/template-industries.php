@@ -8,6 +8,7 @@ get_header('custom');
 
 include_once get_stylesheet_directory() . '/inc/data.php';
 global $INDUSTRIES, $TESTIMONIALS;
+$TESTIMONIALS = function_exists('appletlogic_get_testimonials') ? appletlogic_get_testimonials() : $TESTIMONIALS;
 
 $contact_url = function_exists('get_custom_page_link_by_template') ? get_custom_page_link_by_template('templates/template-contact.php', 'contact') : home_url('/contact/');
 ?>

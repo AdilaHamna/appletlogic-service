@@ -1,18 +1,26 @@
 <?php
 /**
  * Template Name: Custom Services Page
- * Description: Renders the Services List index OR dynamically renders individual Service Detail views depending on the 'slug' URL query parameter.
+ * Description: Renders the Services List index.
  */
+
+$slug = isset($_GET['slug']) ? sanitize_key($_GET['slug']) : '';
+if ($slug) {
+    $service_post = get_page_by_path($slug, OBJECT, 'service');
+    if ($service_post) {
+        wp_redirect(get_permalink($service_post->ID), 301);
+        exit;
+    }
+}
 
 get_header('custom');
 
 include_once get_stylesheet_directory() . '/inc/data.php';
 global $SERVICES;
+$SERVICES = function_exists('appletlogic_get_services') ? appletlogic_get_services() : $SERVICES;
 
 $services_url   = function_exists('get_custom_page_link_by_template') ? get_custom_page_link_by_template('templates/template-service.php', 'services') : home_url('/services/');
 $contact_url    = function_exists('get_custom_page_link_by_template') ? get_custom_page_link_by_template('templates/template-contact.php', 'contact') : home_url('/contact/');
-
-$slug = isset($_GET['slug']) ? sanitize_key($_GET['slug']) : '';
 $current_service = null;
 $current_index = -1;
 
@@ -197,8 +205,8 @@ if ($current_service):
 
         <div class="ct-info">
           <a class="ct-card rv" href="<?php echo esc_url($contact_url); ?>"><div class="ic ic-cyan">📅</div><div><b>Book a discovery call</b><small>Pick a slot on our calendar</small></div></a>
-          <a class="ct-card rv" data-d="1" href="mailto:info@appletlogic.com"><div class="ic ic-red">✉</div><div><b>info@appletlogic.com</b><small>For proposals and partnerships</small></div></a>
-          <a class="ct-card rv" data-d="2" href="tel:+916238577323"><div class="ic ic-blue">☏</div><div><b>+91 6238577323</b><small>Mon–Sat, 9:00–19:00 IST</small></div></a>
+          <a class="ct-card rv" data-d="1" href="mailto:info@gmail.com"><div class="ic ic-red">✉</div><div><b>info@gmail.com</b><small>For proposals and partnerships</small></div></a>
+          <a class="ct-card rv" data-d="2" href="tel:+919061914915"><div class="ic ic-blue">☏</div><div><b>+91 9061914915</b><small>Mon–Sat, 9:00–19:00 IST</small></div></a>
         </div>
       </div>
 
@@ -234,7 +242,7 @@ if ($current_service):
         <?php
         if (isset($SERVICES) && is_array($SERVICES)) {
           foreach ($SERVICES as $idx => $s) {
-            $detail_url = esc_url(add_query_arg('slug', $s['slug'], $services_url));
+            $detail_url = esc_url(get_permalink($s['id']));
             $delay_d = $idx % 2 ? 'data-d="1"' : '';
             echo '<article class="card spot svc rv tilt" ' . $delay_d . ' onclick="location.href=\'' . $detail_url . '\'">';
             echo '<div class="top"><div class="ic ' . esc_attr($s['cls']) . '" style="font-size:1.3rem">' . esc_html($s['icon']) . '</div><span class="idx">0' . ($idx + 1) . '</span></div>';

@@ -46,7 +46,10 @@ a {
   text-decoration: none;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-weight: 600;
   line-height: 1.1;
   letter-spacing: -.025em;
@@ -116,7 +119,9 @@ body.cursor-hover #cursor-ring {
 }
 
 @media(hover:none) {
-  #cursor, #cursor-ring {
+
+  #cursor,
+  #cursor-ring {
     display: none;
   }
 }
@@ -146,9 +151,12 @@ body.cursor-hover #cursor-ring {
 }
 
 @keyframes pulseMark {
-  0%, 100% {
+
+  0%,
+  100% {
     filter: drop-shadow(0 0 4px rgba(53, 109, 255, .2));
   }
+
   50% {
     filter: drop-shadow(0 0 20px rgba(232, 67, 78, .6));
   }
@@ -204,12 +212,15 @@ body.cursor-hover #cursor-ring {
 #curtain i:nth-child(2) {
   animation-delay: .06s;
 }
+
 #curtain i:nth-child(3) {
   animation-delay: .12s;
 }
+
 #curtain i:nth-child(4) {
   animation-delay: .18s;
 }
+
 #curtain i:nth-child(5) {
   animation-delay: .24s;
 }
@@ -225,6 +236,7 @@ body.cursor-hover #cursor-ring {
     transform: scaleY(1);
     transform-origin: top;
   }
+
   to {
     transform: scaleY(0);
     transform-origin: top;
@@ -309,7 +321,7 @@ nav.solid {
 }
 
 .logo svg {
-  height: 36px;
+  height: 83px !important;
   width: auto;
 }
 
@@ -357,11 +369,13 @@ nav.solid {
   transition: width .35s var(--ease);
 }
 
-.nav-links a:hover, .nav-links a.active {
+.nav-links a:hover,
+.nav-links a.active {
   color: #fff;
 }
 
-.nav-links a.active::after, .nav-links a:hover::after {
+.nav-links a.active::after,
+.nav-links a:hover::after {
   width: 100%;
 }
 
@@ -422,9 +436,12 @@ nav.solid {
 }
 
 @keyframes gradShift {
-  0%, 100% {
+
+  0%,
+  100% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
@@ -509,7 +526,8 @@ nav.solid {
   transition: all .85s var(--ease);
 }
 
-.rv-l.on, .rv-r.on {
+.rv-l.on,
+.rv-r.on {
   opacity: 1;
   transform: none;
 }
@@ -517,18 +535,23 @@ nav.solid {
 [data-d="1"] {
   transition-delay: .08s;
 }
+
 [data-d="2"] {
   transition-delay: .16s;
 }
+
 [data-d="3"] {
   transition-delay: .24s;
 }
+
 [data-d="4"] {
   transition-delay: .32s;
 }
+
 [data-d="5"] {
   transition-delay: .4s;
 }
+
 [data-d="6"] {
   transition-delay: .48s;
 }
@@ -641,6 +664,7 @@ nav.solid {
     opacity: 0;
     transform: translateY(18px);
   }
+
   to {
     opacity: 1;
     transform: none;
@@ -912,7 +936,10 @@ footer {
 }
 
 @media(prefers-reduced-motion:reduce) {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     animation-duration: .001s !important;
     transition-duration: .001s !important;
     animation-iteration-count: 1 !important;
@@ -922,7 +949,10 @@ footer {
     scroll-behavior: auto;
   }
 
-  .rv, .rv-blur, .rv-l, .rv-r {
+  .rv,
+  .rv-blur,
+  .rv-l,
+  .rv-r {
     opacity: 1;
     transform: none;
     filter: none;
@@ -930,5 +960,74 @@ footer {
 
   .wr .w span {
     transform: none;
+  }
+}
+
+/* Service card icon colors */
+.ic-blue {
+  background: rgba(53, 109, 255, .14) !important;
+  color: #7FA0FF !important;
+}
+
+.ic-cyan {
+  background: rgba(39, 215, 255, .11) !important;
+  color: var(--cyan) !important;
+}
+
+.ic-red {
+  background: rgba(232, 67, 78, .12) !important;
+  color: #FF8A90 !important;
+}
+
+.ic-vio {
+  background: rgba(122, 90, 255, .13) !important;
+  color: #B0A0FF !important;
+}
+
+/* Global bottom CTA box styles */
+.cta-box {
+  border-radius: 26px;
+  background: linear-gradient(140deg, #15151C, #0D0D10 50%, #171013);
+  border: 1px solid var(--line-2);
+  padding: 90px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-box::before {
+  content: "";
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 67, 78, .13), transparent 65%);
+  top: -260px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: pulse 4s infinite;
+}
+
+.cta-box h2 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  max-width: 720px;
+  margin: 0 auto 18px;
+}
+
+.cta-box p {
+  color: var(--muted);
+  margin-bottom: 40px;
+  font-size: 1.02rem;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: .3;
   }
 }

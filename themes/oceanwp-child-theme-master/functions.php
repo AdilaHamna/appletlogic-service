@@ -41,7 +41,7 @@ function appletlogic_enqueue_custom_styles() {
         wp_enqueue_script( 'appletlogic-global-js', get_stylesheet_directory_uri() . '/js/global.js', array(), '1.0', true );
         wp_enqueue_script( 'appletlogic-home-js', get_stylesheet_directory_uri() . '/js/home.js', array( 'appletlogic-global-js' ), '1.0', true );
         $is_custom_template = true;
-    } elseif ( is_page_template( 'templates/template-service.php' ) ) {
+    } elseif ( is_page_template( 'templates/template-service.php' ) || is_singular( 'service' ) ) {
         wp_enqueue_style( 'appletlogic-global', get_stylesheet_directory_uri() . '/css/global.css', array(), '1.0' );
         wp_enqueue_style( 'appletlogic-service', get_stylesheet_directory_uri() . '/css/service.css', array( 'appletlogic-global' ), '1.0' );
         wp_enqueue_script( 'appletlogic-global-js', get_stylesheet_directory_uri() . '/js/global.js', array(), '1.0', true );
@@ -140,3 +140,8 @@ function appletlogic_create_custom_pages() {
     }
 }
 add_action( 'init', 'appletlogic_create_custom_pages' );
+
+/**
+ * Custom Post Types and Meta Fields for Services and Testimonials.
+ */
+require_once get_stylesheet_directory() . '/inc/cpt-fields.php';

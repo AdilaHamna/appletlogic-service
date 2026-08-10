@@ -52,11 +52,11 @@ $contact_url    = function_exists('get_custom_page_link_by_template') ? get_cust
 <nav id="nav">
   <div class="nav-in">
     <a class="logo" href="<?php echo esc_url($home_url); ?>">
-      <span class="word"><b>APPLET</b><i>LOGIC</i></span>
+      <img src="/wp-content/uploads/2026/08/WhatsApp-Image-2026-06-05-at-10.51.04-AM-2-1.svg" alt="AppletLogic Logo" style="height: 38px; width: auto; vertical-align: middle;">
     </a>
     <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
     <div class="nav-links" id="navLinks">
-      <a href="<?php echo esc_url($services_url); ?>" class="<?php echo is_page_template('templates/template-service.php') ? 'active' : ''; ?>">Services</a>
+      <a href="<?php echo esc_url($services_url); ?>" class="<?php echo (is_page_template('templates/template-service.php') || is_singular('service')) ? 'active' : ''; ?>">Services</a>
       <a href="<?php echo esc_url($industries_url); ?>" class="<?php echo is_page_template('templates/template-industries.php') ? 'active' : ''; ?>">Industries</a>
       <a href="<?php echo esc_url($portfolio_url); ?>" class="<?php echo is_page_template('templates/template-portfolio.php') ? 'active' : ''; ?>">Portfolio</a>
       <a href="<?php echo esc_url($why_us_url); ?>" class="<?php echo is_page_template('templates/template-why-us.php') ? 'active' : ''; ?>">Why Us</a>
