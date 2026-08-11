@@ -94,7 +94,7 @@ $contact_url    = function_exists('get_custom_page_link_by_template') ? get_cust
           ["98", "%", "Happy Customers"]
         ];
         foreach ($counter_data as $cnt) {
-          echo '<div class="counter"><div class="num"><span data-count="' . esc_attr($cnt[0]) . '">0</span><s>' . esc_html($cnt[1]) . '</s></div><p>' . esc_html($cnt[2]) . '</p></div>';
+          echo '<div class="counter"><div class="num"><span data-count="' . esc_attr($cnt[0]) . '">' . esc_html($cnt[0]) . '</span><s>' . esc_html($cnt[1]) . '</s></div><p>' . esc_html($cnt[2]) . '</p></div>';
         }
         ?>
       </div>

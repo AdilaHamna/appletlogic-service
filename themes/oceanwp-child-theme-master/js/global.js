@@ -279,6 +279,51 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
+
+  /* ============================================================
+     9.8. NUMERICAL COUNTER ANIMATIONS
+     ============================================================ */
+  const countElements = document.querySelectorAll('[data-count]');
+  if (countElements.length > 0) {
+    const runCounter = (el) => {
+      const target = +el.getAttribute('data-count');
+      const duration = 2000; // 2 seconds
+      const startTime = performance.now();
+      
+      const update = (now) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease out quad
+        const ease = progress * (2 - progress);
+        const current = Math.floor(ease * target);
+        
+        el.textContent = current;
+        
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          el.textContent = target;
+        }
+      };
+      
+      requestAnimationFrame(update);
+    };
+
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          runCounter(entry.target);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    countElements.forEach(el => {
+      // Set to 0 initially so the animation starts from 0 when it enters viewport
+      el.textContent = '0';
+      counterObserver.observe(el);
+    });
+  }
 });
 
 /* ============================================================

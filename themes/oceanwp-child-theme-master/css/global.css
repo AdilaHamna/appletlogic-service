@@ -1064,3 +1064,32 @@ footer {
 .intl-tel-input .country-list .country {
   color: #101013 !important;
 }
+
+/* Mailchimp Newsletter form styling overrides */
+#mc_embed_signup form {
+  margin: 0;
+  padding: 0;
+}
+#mc_embed_signup input.mce_inline_error {
+  border-color: var(--crimson) !important;
+}
+div.mce_inline_error {
+  color: var(--crimson) !important;
+  font-size: 0.8rem !important;
+  margin: -6px 0 12px 4px !important;
+  background-color: transparent !important;
+  font-weight: normal !important;
+  padding: 0 !important;
+}
+#mce-error-response,
+#mce-success-response {
+  font-size: 0.82rem;
+  margin: -6px 0 12px 4px;
+  line-height: 1.4;
+}
+#mce-error-response {
+  color: var(--crimson) !important;
+}
+#mce-success-response {
+  color: var(--cyan) !important;
+}
