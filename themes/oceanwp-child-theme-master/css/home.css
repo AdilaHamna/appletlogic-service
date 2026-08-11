@@ -52,9 +52,11 @@
   0% {
     transform: translate(0, 0) scale(1);
   }
+
   50% {
     transform: translate(50px, -40px) scale(1.12);
   }
+
   100% {
     transform: translate(-30px, 40px) scale(.94);
   }
@@ -92,9 +94,12 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: .3;
   }
@@ -244,9 +249,12 @@ h1.hero-h .line:nth-child(3) span {
 }
 
 @keyframes eq {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scaleY(1);
   }
+
   50% {
     transform: scaleY(.55);
   }
@@ -330,9 +338,12 @@ h1.hero-h .line:nth-child(3) span {
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-16px);
   }
@@ -386,13 +397,16 @@ h1.hero-h .line:nth-child(3) span {
     transform: scaleY(0);
     transform-origin: top;
   }
+
   55% {
     transform: scaleY(1);
     transform-origin: top;
   }
+
   56% {
     transform-origin: bottom;
   }
+
   100% {
     transform: scaleY(0);
     transform-origin: bottom;
@@ -596,6 +610,7 @@ h1.hero-h .line:nth-child(3) span {
   from {
     transform: translateX(-50%);
   }
+
   to {
     transform: translateX(0);
   }
@@ -636,7 +651,8 @@ h1.hero-h .line:nth-child(3) span {
   overflow: hidden;
 }
 
-.fade-edges::before, .fade-edges::after {
+.fade-edges::before,
+.fade-edges::after {
   content: "";
   position: absolute;
   top: 0;
@@ -779,13 +795,16 @@ h1.hero-h .line:nth-child(3) span {
     grid-template-columns: 1fr;
     gap: 70px;
   }
+
   .hero-visual {
     height: 520px;
     max-width: 560px;
   }
+
   .counters {
     grid-template-columns: repeat(3, 1fr);
   }
+
   .tst {
     min-width: calc(50% - 10px);
   }
@@ -795,16 +814,28 @@ h1.hero-h .line:nth-child(3) span {
   .vs {
     grid-template-columns: 1fr;
   }
+
   .counters {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .tst {
     min-width: 100%;
   }
+
   .hero-visual {
     height: 470px;
   }
+
   .fc2 {
     right: 0;
+  }
+
+  .svc-grid .svc {
+    padding: 20px;
+  }
+
+  .cta-box {
+    padding: 20px !important;
   }
 }

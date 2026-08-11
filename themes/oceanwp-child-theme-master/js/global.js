@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     burger.onclick = () => {
       burger.classList.toggle('open');
       navLinks.classList.toggle('open');
+      document.body.classList.toggle('menu-open');
     };
   }
 
@@ -230,6 +231,54 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     clearInterval(window._tstIv);
   }
+
+  /* ============================================================
+     9.5. FORM VALIDATION
+     ============================================================ */
+  
+  // Delegated event listeners to support elements that are cloned or modified dynamically by plugins
+  const nameSelector = 'input[name="full-name"]';
+  const phoneSelector = 'input[name="intl_tel-845"], input[name="intl_tel-402"], input[name^="intl_tel-"], input.wpcf7-intl-tel, input[type="tel"]';
+
+  // Input event delegation
+  document.addEventListener('input', function (e) {
+    const target = e.target;
+    if (target && target.matches) {
+      if (target.matches(nameSelector)) {
+        target.value = target.value.replace(/[^a-zA-Z\s'-]/g, '');
+      } else if (target.matches(phoneSelector)) {
+        let value = target.value;
+        if (value.startsWith('+')) {
+          value = '+' + value.substring(1).replace(/[^0-9\s]/g, '');
+        } else {
+          value = value.replace(/[^0-9\s]/g, '');
+        }
+        target.value = value;
+      }
+    }
+  });
+
+  // Paste event delegation
+  document.addEventListener('paste', function (e) {
+    const target = e.target;
+    if (target && target.matches) {
+      if (target.matches(nameSelector)) {
+        setTimeout(() => {
+          target.value = target.value.replace(/[^a-zA-Z\s'-]/g, '');
+        }, 0);
+      } else if (target.matches(phoneSelector)) {
+        setTimeout(() => {
+          let value = target.value;
+          if (value.startsWith('+')) {
+            value = '+' + value.substring(1).replace(/[^0-9\s]/g, '');
+          } else {
+            value = value.replace(/[^0-9\s]/g, '');
+          }
+          target.value = value;
+        }, 0);
+      }
+    }
+  });
 });
 
 /* ============================================================
