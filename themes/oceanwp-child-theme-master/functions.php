@@ -70,6 +70,10 @@ function appletlogic_enqueue_custom_styles() {
         wp_enqueue_style( 'appletlogic-contact', get_stylesheet_directory_uri() . '/css/contact.css', array( 'appletlogic-global' ), '1.0' );
         wp_enqueue_script( 'appletlogic-global-js', get_stylesheet_directory_uri() . '/js/global.js', array(), '1.0', true );
         $is_custom_template = true;
+    } elseif ( is_404() ) {
+        wp_enqueue_style( 'appletlogic-global', get_stylesheet_directory_uri() . '/css/global.css', array(), '1.0' );
+        wp_enqueue_script( 'appletlogic-global-js', get_stylesheet_directory_uri() . '/js/global.js', array(), '1.0', true );
+        $is_custom_template = true;
     }
 
     // Dequeue parent styles/scripts if we are on our custom templates, to prevent theme conflicts
