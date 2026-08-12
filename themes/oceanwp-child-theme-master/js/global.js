@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const loader = document.getElementById('loader');
   const loadBar = document.getElementById('loadBar');
   const loadPct = document.getElementById('loadPct');
-  
+
   if (loader && loadBar && loadPct) {
     let pc = 0;
     const lIv = setInterval(() => {
@@ -75,10 +75,18 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', function (e) {
     const link = e.target.closest('a');
     if (!link) return;
-    
+
     const href = link.getAttribute('href');
     if (!href) return;
-    
+
+    // Skip if it is a booking modal trigger (f-cal calendar button or Book a discovery call card)
+    if (
+      link.classList.contains('f-cal') ||
+      link.textContent.includes('Book a discovery call')
+    ) {
+      return;
+    }
+
     // Skip external links, hash links, mailto, tel, target="_blank", or modifier keys
     if (
       href.startsWith('#') ||
@@ -89,20 +97,31 @@ document.addEventListener('DOMContentLoaded', () => {
     ) {
       return;
     }
-    
+
     // Verify if the link is internal to our domain
     try {
       const url = new URL(href, window.location.href);
       if (url.origin !== window.location.origin) {
         return;
       }
+      if (url.pathname === window.location.pathname) {
+        if (url.hash) {
+          // Close mobile menu if open
+          if (burger && navLinks) {
+            burger.classList.remove('open');
+            navLinks.classList.remove('open');
+            document.body.classList.remove('menu-open');
+          }
+          return; // Let browser scroll to hash naturally
+        }
+      }
     } catch (err) {
       // If parsing fails, it is likely a relative internal path, so let it proceed.
     }
-    
+
     // Prevent default browser navigation
     e.preventDefault();
-    
+
     const curtain = document.getElementById('curtain');
     if (curtain) {
       // Close mobile menu if open
@@ -111,11 +130,11 @@ document.addEventListener('DOMContentLoaded', () => {
         navLinks.classList.remove('open');
         document.body.classList.remove('menu-open');
       }
-      
+
       // Start exit transition
       curtain.classList.remove('out');
       curtain.classList.add('in');
-      
+
       // Redirect after transition completes (~500ms)
       setTimeout(function () {
         window.location.href = href;
@@ -134,18 +153,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!reduced && window.matchMedia('(hover:hover)').matches) {
     let mx = 0, my = 0, rx = 0, ry = 0;
-    
+
     window.addEventListener('mousemove', e => {
       mx = e.clientX;
       my = e.clientY;
-      
+
       if (cursor) {
         cursor.style.left = mx + 'px';
         cursor.style.top = my + 'px';
       }
-      
+
       document.body.classList.toggle('cursor-hover', !!e.target.closest('a, button, .card, .tilt, [data-to]'));
-      
+
       document.querySelectorAll('.parallax').forEach(el => {
         const p = +el.dataset.p || 10;
         el.style.transform = `translate(${(mx / window.innerWidth - .5) * p}px, ${(my / window.innerHeight - .5) * p}px)`;
@@ -266,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const per = window.innerWidth > 1024 ? 3 : window.innerWidth > 760 ? 2 : 1;
     const pages = Math.max(1, testimonialsCount - per + 1);
     let curPage = 0;
-    
+
     navEl.innerHTML = '';
     for (let p = 0; p < pages; p++) {
       const d = document.createElement('button');
@@ -275,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
       d.onclick = () => go(p);
       navEl.appendChild(d);
     }
-    
+
     function go(p) {
       curPage = p;
       const firstChild = track.children[0];
@@ -285,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       navEl.querySelectorAll('.tst-dot').forEach((d, k) => d.classList.toggle('on', k === curPage));
     }
-    
+
     if (!reduced) {
       clearInterval(window._tstIv);
       window._tstIv = setInterval(() => go((curPage + 1) % pages), 4500);
@@ -297,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ============================================================
      9.5. FORM VALIDATION
      ============================================================ */
-  
+
   // Delegated event listeners to support elements that are cloned or modified dynamically by plugins
   const nameSelector = 'input[name="full-name"]';
   const phoneSelector = 'input[name="intl_tel-845"], input[name="intl_tel-402"], input[name^="intl_tel-"], input.wpcf7-intl-tel, input[type="tel"]';
@@ -306,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function cleanPhoneNumber(value) {
     let isPlus = value.startsWith('+');
     let temp = isPlus ? value.substring(1) : value;
-    
+
     let chars = [];
     let digitCount = 0;
     for (let i = 0; i < temp.length; i++) {
@@ -357,15 +376,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (target && target.matches && target.matches(phoneSelector)) {
       const value = target.value;
       const digits = value.replace(/[^0-9]/g, '');
-      
+
       // Look for parent wrapper to append the tip correctly in CF7 markup
       const parent = target.closest('.wpcf7-form-control-wrap') || target.parentNode;
       let tip = parent.querySelector('.wpcf7-not-valid-tip');
-      
+
       if (digits.length > 0 && digits.length < 7) {
         target.classList.add('wpcf7-not-valid');
         target.setAttribute('aria-invalid', 'true');
-        
+
         if (!tip) {
           tip = document.createElement('span');
           tip.className = 'wpcf7-not-valid-tip';
@@ -373,8 +392,8 @@ document.addEventListener('DOMContentLoaded', () => {
           parent.appendChild(tip);
         }
         tip.textContent = 'Phone number must be at least 7 digits.';
-        
-        requestAnimationFrame(function() {
+
+        requestAnimationFrame(function () {
           void tip.offsetWidth; // Force reflow
           tip.classList.add('cf7-animate-in');
         });
@@ -402,23 +421,23 @@ document.addEventListener('DOMContentLoaded', () => {
       const target = +el.getAttribute('data-count');
       const duration = 2000; // 2 seconds
       const startTime = performance.now();
-      
+
       const update = (now) => {
         const elapsed = now - startTime;
         const progress = Math.min(elapsed / duration, 1);
         // Ease out quad
         const ease = progress * (2 - progress);
         const current = Math.floor(ease * target);
-        
+
         el.textContent = current;
-        
+
         if (progress < 1) {
           requestAnimationFrame(update);
         } else {
           el.textContent = target;
         }
       };
-      
+
       requestAnimationFrame(update);
     };
 
@@ -437,8 +456,304 @@ document.addEventListener('DOMContentLoaded', () => {
       counterObserver.observe(el);
     });
   }
-});
 
+  /* ============================================================
+     9.9. BOOKING MODAL POPUP SYSTEM
+     ============================================================ */
+  const overlay = document.getElementById('booking-modal-overlay');
+  const closeBtn = document.getElementById('booking-modal-close');
+  const nameInput = overlay ? overlay.querySelector('#booking-name, input[name="booking-name"], input[name="your-name"]') : null;
+  const dateInput = overlay ? overlay.querySelector('input[type="date"], #booking-date') : null;
+  const timeInput = overlay ? overlay.querySelector('input[type="time"], input.booking-time-input, #booking-time') : null;
+
+  // Restrict Name input to letters only (no numbers)
+  if (nameInput) {
+    nameInput.addEventListener('input', function () {
+      this.value = this.value.replace(/[0-9]/g, '');
+    });
+  }
+
+  function validateBookingDate(input) {
+    if (!input) return true;
+    const val = input.value;
+    const parent = input.closest('.booking-field') || input.parentNode;
+    let tip = parent.querySelector('.wpcf7-not-valid-tip');
+
+    if (val) {
+      const selectedDate = new Date(val);
+      selectedDate.setHours(0, 0, 0, 0);
+      const todayDate = new Date();
+      todayDate.setHours(0, 0, 0, 0);
+
+      // If the year is not fully typed yet (less than 4 digits), skip validation to avoid locking typing
+      const yearStr = val.split('-')[0];
+      if (yearStr && yearStr.length < 4) {
+        input.setCustomValidity('');
+        input.classList.remove('wpcf7-not-valid');
+        if (tip) tip.remove();
+        return true;
+      }
+
+      if (selectedDate <= todayDate) {
+        input.setCustomValidity('Please select an upcoming date (tomorrow or later).');
+        input.classList.add('wpcf7-not-valid');
+        if (!tip) {
+          tip = document.createElement('span');
+          tip.className = 'wpcf7-not-valid-tip';
+          tip.setAttribute('aria-hidden', 'true');
+          tip.textContent = 'Please select an upcoming date (tomorrow or later).';
+          parent.appendChild(tip);
+          requestAnimationFrame(() => tip.classList.add('cf7-animate-in'));
+        }
+        return false;
+      }
+    }
+
+    input.setCustomValidity('');
+    input.classList.remove('wpcf7-not-valid');
+    if (tip) {
+      tip.classList.remove('cf7-animate-in');
+      setTimeout(() => {
+        if (!tip.classList.contains('cf7-animate-in')) tip.remove();
+      }, 300);
+    }
+    return true;
+  }
+
+  function validateBookingTime(input) {
+    if (!input) return true;
+    const val = input.value;
+    const parent = input.closest('.booking-field') || input.parentNode;
+    let tip = parent.querySelector('.wpcf7-not-valid-tip');
+
+    if (val) {
+      const [hours, minutes] = val.split(':').map(Number);
+      if (hours < 9 || (hours >= 20 && minutes > 0) || hours > 20) {
+        input.setCustomValidity('Please select a time between 9:00 AM and 8:00 PM.');
+        input.classList.add('wpcf7-not-valid');
+        if (!tip) {
+          tip = document.createElement('span');
+          tip.className = 'wpcf7-not-valid-tip';
+          tip.setAttribute('aria-hidden', 'true');
+          tip.textContent = 'Time must be between 9:00 AM and 8:00 PM.';
+          parent.appendChild(tip);
+          requestAnimationFrame(() => tip.classList.add('cf7-animate-in'));
+        }
+        return false;
+      }
+    }
+
+    input.setCustomValidity('');
+    input.classList.remove('wpcf7-not-valid');
+    if (tip) {
+      tip.classList.remove('cf7-animate-in');
+      setTimeout(() => {
+        if (!tip.classList.contains('cf7-animate-in')) tip.remove();
+      }, 300);
+    }
+    return true;
+  }
+
+  // Set tomorrow's date as min date constraint (no past dates or today)
+  if (dateInput) {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const yyyy = tomorrow.getFullYear();
+    const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+    const dd = String(tomorrow.getDate()).padStart(2, '0');
+    dateInput.setAttribute('min', `${yyyy}-${mm}-${dd}`);
+
+    // JavaScript validation constraints for date input
+    dateInput.addEventListener('input', function () { validateBookingDate(this); });
+    dateInput.addEventListener('change', function () { validateBookingDate(this); });
+  }
+
+  // Validate time range (9:00 AM to 8:00 PM)
+  if (timeInput) {
+    timeInput.type = 'time';
+    timeInput.setAttribute('min', '09:00');
+    timeInput.setAttribute('max', '20:00');
+    timeInput.addEventListener('input', function () { validateBookingTime(this); });
+    timeInput.addEventListener('change', function () { validateBookingTime(this); });
+  }
+
+  // Hook submit event on capture phase to block Contact Form 7 from submitting if validations fail
+  const bookingFormEl = overlay ? overlay.querySelector('form') : null;
+  if (bookingFormEl) {
+    bookingFormEl.addEventListener('submit', function (e) {
+      const isDateValid = validateBookingDate(dateInput);
+      const isTimeValid = validateBookingTime(timeInput);
+
+      if (!isDateValid || !isTimeValid) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        if (!isDateValid && dateInput) {
+          dateInput.reportValidity();
+        } else if (!isTimeValid && timeInput) {
+          timeInput.reportValidity();
+        }
+        return false;
+      }
+    }, { capture: true });
+  }
+
+  function openModal(e) {
+    if (e) e.preventDefault();
+    if (overlay) {
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeModal() {
+    if (overlay) {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+
+      // Reset the modal card content back to initial CF7 form when closed, if success screen was shown
+      const initialFormContent = overlay.getAttribute('data-initial-html');
+      if (initialFormContent) {
+        overlay.querySelector('.booking-modal-card').innerHTML = initialFormContent;
+        // Re-bind close button and inputs
+        const newCloseBtn = document.getElementById('booking-modal-close');
+        if (newCloseBtn) newCloseBtn.onclick = closeModal;
+        rebindBookingInputs();
+      }
+    }
+  }
+
+  // Store initial HTML content of the modal card to restore it when closed
+  if (overlay) {
+    const card = overlay.querySelector('.booking-modal-card');
+    if (card) {
+      overlay.setAttribute('data-initial-html', card.innerHTML);
+    }
+  }
+
+  function rebindBookingInputs() {
+    const newNameInput = overlay.querySelector('#booking-name, input[name="booking-name"], input[name="your-name"]');
+    const newDateInput = overlay.querySelector('input[type="date"], #booking-date');
+    const newTimeInput = overlay.querySelector('input[type="time"], input.booking-time-input, #booking-time');
+
+    if (newNameInput) {
+      newNameInput.addEventListener('input', function () {
+        this.value = this.value.replace(/[0-9]/g, '');
+      });
+    }
+
+    if (newDateInput) {
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const yyyy = tomorrow.getFullYear();
+      const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+      const dd = String(tomorrow.getDate()).padStart(2, '0');
+      newDateInput.setAttribute('min', `${yyyy}-${mm}-${dd}`);
+
+      newDateInput.addEventListener('input', function () { validateBookingDate(this); });
+      newDateInput.addEventListener('change', function () { validateBookingDate(this); });
+    }
+
+    if (newTimeInput) {
+      newTimeInput.type = 'time';
+      newTimeInput.setAttribute('min', '09:00');
+      newTimeInput.setAttribute('max', '20:00');
+      newTimeInput.addEventListener('input', function () { validateBookingTime(this); });
+      newTimeInput.addEventListener('change', function () { validateBookingTime(this); });
+    }
+
+    // Re-bind the capture phase form submission validation
+    const newFormEl = overlay.querySelector('form');
+    if (newFormEl) {
+      newFormEl.addEventListener('submit', function (e) {
+        const isDateValid = validateBookingDate(newDateInput);
+        const isTimeValid = validateBookingTime(newTimeInput);
+
+        if (!isDateValid || !isTimeValid) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+
+          if (!isDateValid && newDateInput) {
+            newDateInput.reportValidity();
+          } else if (!isTimeValid && newTimeInput) {
+            newTimeInput.reportValidity();
+          }
+          return false;
+        }
+      }, { capture: true });
+    }
+  }
+
+  if (closeBtn) closeBtn.onclick = closeModal;
+  if (overlay) {
+    overlay.onclick = (e) => {
+      if (e.target === overlay) closeModal();
+    };
+  }
+
+  // Bind booking trigger clicks
+  document.addEventListener('click', function (e) {
+    const trigger = e.target.closest('.f-cal, a.ct-card');
+    if (trigger) {
+      if (trigger.classList.contains('f-cal') || trigger.textContent.includes('Book a discovery call')) {
+        e.preventDefault();
+        openModal();
+      }
+    }
+  });
+
+  // Handle successful Contact Form 7 submission for booking modal
+  document.addEventListener('wpcf7mailsent', function (event) {
+    const form = event.target;
+    if (overlay && (form.closest('#booking-modal-overlay') || form.querySelector('#booking-modal-overlay'))) {
+      const nameVal = form.querySelector('input[name="booking-name"], input[name="your-name"], #booking-name')?.value || 'there';
+      const emailVal = form.querySelector('input[name="booking-email"], input[name="your-email"], #booking-email')?.value || '';
+      const dateVal = form.querySelector('input[type="date"], input[name="booking-date"]')?.value || '';
+      const timeInputVal = form.querySelector('input[type="time"], input[name="booking-time"]')?.value;
+
+      let timeVal = '';
+      if (timeInputVal) {
+        const [hStr, mStr] = timeInputVal.split(':');
+        let hours = Number(hStr);
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // 0 hour should be 12
+        timeVal = `${hours}:${mStr} ${ampm}`;
+      }
+
+      const card = overlay.querySelector('.booking-modal-card');
+      if (card) {
+        card.innerHTML = `
+          <button class="booking-modal-close" id="booking-modal-close" aria-label="Close modal">&times;</button>
+          <div class="booking-success-screen" style="text-align:center; padding:30px 10px;">
+            <div class="booking-success-icon">
+              <svg class="cf7-check-icon" width="56" height="56" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="11" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="M7 12.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 style="margin-top:20px; font-size:1.4rem;">Booking Requested!</h3>
+            <p style="color:var(--muted); margin-top:10px; font-size:0.95rem; line-height:1.6;">
+              Thank you, <strong>${nameVal}</strong>. We have received your request for a discovery call on <strong>${dateVal}</strong> at <strong>${timeVal}</strong>.
+            </p>
+            ${emailVal ? `<p style="color:var(--muted); font-size:0.85rem; margin-top:8px;">A confirmation link has been sent to <strong>${emailVal}</strong>.</p>` : ''}
+            <button class="btn btn-ghost" id="booking-success-close" style="margin-top:24px; padding:10px 24px; font-size:0.85rem;">Close</button>
+          </div>
+        `;
+
+        setTimeout(() => {
+          const svg = card.querySelector('.cf7-check-icon');
+          if (svg) svg.classList.add('cf7-animate-in');
+        }, 50);
+
+        card.querySelector('#booking-modal-close').onclick = closeModal;
+        card.querySelector('#booking-success-close').onclick = closeModal;
+      }
+    }
+  }, false);
+});
 /* ============================================================
    10. CONTACT FORM SUBMISSION
    ============================================================ */
@@ -457,7 +772,7 @@ window.submitForm = submitForm;
 
 /* ---------- Contact Form 7 custom message handlers ---------- */
 // Success
-document.addEventListener('wpcf7mailsent', function(event) {
+document.addEventListener('wpcf7mailsent', function (event) {
   var form = event.target;
   var msg = form.querySelector('.wpcf7-response-output');
   if (!msg) return;
@@ -475,14 +790,14 @@ document.addEventListener('wpcf7mailsent', function(event) {
   var errIcon = msg.querySelector('.cf7-error-icon');
   if (errIcon) errIcon.remove();
 
-  requestAnimationFrame(function() {
+  requestAnimationFrame(function () {
     void msg.offsetWidth; // Force reflow so display: flex is registered
     msg.classList.add('cf7-animate-in');
   });
 }, false);
 
 // Validation error (fields missing/invalid)
-document.addEventListener('wpcf7invalid', function(event) {
+document.addEventListener('wpcf7invalid', function (event) {
   var form = event.target;
   var msg = form.querySelector('.wpcf7-response-output');
   if (!msg) return;
@@ -501,21 +816,21 @@ document.addEventListener('wpcf7invalid', function(event) {
   var successIcon = msg.querySelector('.cf7-check-icon');
   if (successIcon) successIcon.remove();
 
-  requestAnimationFrame(function() {
+  requestAnimationFrame(function () {
     void msg.offsetWidth; // Force reflow so display: flex is registered
     msg.classList.add('cf7-animate-in', 'cf7-shake');
   });
 
   // Also fade in each individual field tooltip
-  form.querySelectorAll('.wpcf7-not-valid-tip').forEach(function(tip, i) {
-    setTimeout(function() {
+  form.querySelectorAll('.wpcf7-not-valid-tip').forEach(function (tip, i) {
+    setTimeout(function () {
       tip.classList.add('cf7-animate-in');
     }, i * 60);
   });
 }, false);
 
 // Mail failed (server-side error, not validation) — reuses the same styling
-document.addEventListener('wpcf7mailfailed', function(event) {
+document.addEventListener('wpcf7mailfailed', function (event) {
   var form = event.target;
   var msg = form.querySelector('.wpcf7-response-output');
   if (!msg) return;
@@ -524,7 +839,7 @@ document.addEventListener('wpcf7mailfailed', function(event) {
   var successIcon = msg.querySelector('.cf7-check-icon');
   if (successIcon) successIcon.remove();
 
-  requestAnimationFrame(function() {
+  requestAnimationFrame(function () {
     void msg.offsetWidth; // Force reflow so display: flex is registered
     msg.classList.add('cf7-animate-in', 'cf7-shake');
   });

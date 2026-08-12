@@ -31,7 +31,7 @@ $SERVICES = function_exists('appletlogic_get_services') ? appletlogic_get_servic
       <div class="ct-grid" style="margin-top:0">
         
         <!-- Proposal Form -->
-        <div class="ct-form rv">
+        <div id="proposal-form" class="ct-form rv">
           <?php echo do_shortcode('[contact-form-7 id="967fc63" title="Contact form 1"]'); ?>
         </div>
 

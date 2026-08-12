@@ -1228,3 +1228,163 @@ div.mce_inline_error {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ---------- Booking Modal Popup ---------- */
+.booking-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 11, 0.7);
+  backdrop-filter: blur(12px);
+  z-index: 6000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.booking-modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.booking-modal-card {
+  background: var(--panel);
+  border: 1px solid var(--line-2);
+  border-radius: 20px;
+  width: 92%;
+  max-width: 500px;
+  padding: 38px;
+  position: relative;
+  transform: scale(0.92) translateY(12px);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.95);
+}
+
+.booking-modal-overlay.open .booking-modal-card {
+  transform: scale(1) translateY(0);
+}
+
+.booking-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: 0;
+  font-size: 1.8rem;
+  color: var(--muted);
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.25s ease;
+}
+
+.booking-modal-close:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.booking-modal-header {
+  margin-bottom: 24px;
+}
+
+.booking-modal-header h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.booking-modal-header p {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.booking-field {
+  margin-bottom: 18px;
+}
+
+.booking-field label {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 8px;
+}
+
+.booking-field input,
+.booking-field select {
+  width: 100%;
+  background: var(--black);
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  padding: 12px 16px;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.9rem;
+  height: 46px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.booking-field input:focus,
+.booking-field select:focus {
+  outline: none;
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(39, 215, 255, 0.14);
+}
+
+.booking-field select option {
+  background: var(--coal);
+  color: var(--text);
+}
+
+.booking-row {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 16px;
+}
+
+/* Success Screen inside Modal */
+.booking-success-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(93, 202, 165, 0.12);
+  border: 1px solid rgba(93, 202, 165, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  color: #5DCAA5;
+}
+
+.booking-success-icon svg {
+  color: #5DCAA5;
+}
+
+.booking-success-icon .cf7-check-icon circle {
+  stroke-dasharray: 69;
+  stroke-dashoffset: 69;
+  transition: stroke-dashoffset 0.6s ease-out 0.1s;
+}
+
+.booking-success-icon .cf7-check-icon path {
+  stroke-dasharray: 16;
+  stroke-dashoffset: 16;
+  transition: stroke-dashoffset 0.4s ease-out 0.65s;
+}
+
+.booking-success-icon .cf7-animate-in circle,
+.booking-success-icon .cf7-animate-in path {
+  stroke-dashoffset: 0;
+}
+
+#proposal-form {
+  scroll-margin-top: 120px !important;
+}

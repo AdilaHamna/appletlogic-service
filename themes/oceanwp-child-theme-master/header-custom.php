@@ -52,7 +52,7 @@ $contact_url    = function_exists('get_custom_page_link_by_template') ? get_cust
       <a href="<?php echo esc_url($portfolio_url); ?>" class="<?php echo is_page_template('templates/template-portfolio.php') ? 'active' : ''; ?>">Portfolio</a>
       <a href="<?php echo esc_url($why_us_url); ?>" class="<?php echo is_page_template('templates/template-why-us.php') ? 'active' : ''; ?>">Why Us</a>
       <a href="<?php echo esc_url($contact_url); ?>" class="<?php echo is_page_template('templates/template-contact.php') ? 'active' : ''; ?>">Contact</a>
-      <a href="<?php echo esc_url($contact_url); ?>" class="btn btn-grad btn-sm">Book Free Consultation</a>
+      <a href="<?php echo esc_url($contact_url); ?>#proposal-form" class="btn btn-grad btn-sm">Book Free Consultation</a>
     </div>
   </div>
 </nav>
