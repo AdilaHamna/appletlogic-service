@@ -240,6 +240,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const nameSelector = 'input[name="full-name"]';
   const phoneSelector = 'input[name="intl_tel-845"], input[name="intl_tel-402"], input[name^="intl_tel-"], input.wpcf7-intl-tel, input[type="tel"]';
 
+  // Helper to restrict and format phone input to maximum 15 digits
+  function cleanPhoneNumber(value) {
+    let isPlus = value.startsWith('+');
+    let temp = isPlus ? value.substring(1) : value;
+    
+    let chars = [];
+    let digitCount = 0;
+    for (let i = 0; i < temp.length; i++) {
+      let char = temp[i];
+      if (/[0-9]/.test(char)) {
+        if (digitCount < 15) {
+          chars.push(char);
+          digitCount++;
+        }
+      } else if (char === ' ') {
+        chars.push(char);
+      }
+    }
+    return (isPlus ? '+' : '') + chars.join('');
+  }
+
   // Input event delegation
   document.addEventListener('input', function (e) {
     const target = e.target;
@@ -247,13 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (target.matches(nameSelector)) {
         target.value = target.value.replace(/[^a-zA-Z\s'-]/g, '');
       } else if (target.matches(phoneSelector)) {
-        let value = target.value;
-        if (value.startsWith('+')) {
-          value = '+' + value.substring(1).replace(/[^0-9\s]/g, '');
-        } else {
-          value = value.replace(/[^0-9\s]/g, '');
-        }
-        target.value = value;
+        target.value = cleanPhoneNumber(target.value);
       }
     }
   });
@@ -268,14 +283,50 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 0);
       } else if (target.matches(phoneSelector)) {
         setTimeout(() => {
-          let value = target.value;
-          if (value.startsWith('+')) {
-            value = '+' + value.substring(1).replace(/[^0-9\s]/g, '');
-          } else {
-            value = value.replace(/[^0-9\s]/g, '');
-          }
-          target.value = value;
+          target.value = cleanPhoneNumber(target.value);
         }, 0);
+      }
+    }
+  });
+
+  // Focusout (blur) event delegation for instant field error validation under 7 digits
+  document.addEventListener('focusout', function (e) {
+    const target = e.target;
+    if (target && target.matches && target.matches(phoneSelector)) {
+      const value = target.value;
+      const digits = value.replace(/[^0-9]/g, '');
+      
+      // Look for parent wrapper to append the tip correctly in CF7 markup
+      const parent = target.closest('.wpcf7-form-control-wrap') || target.parentNode;
+      let tip = parent.querySelector('.wpcf7-not-valid-tip');
+      
+      if (digits.length > 0 && digits.length < 7) {
+        target.classList.add('wpcf7-not-valid');
+        target.setAttribute('aria-invalid', 'true');
+        
+        if (!tip) {
+          tip = document.createElement('span');
+          tip.className = 'wpcf7-not-valid-tip';
+          tip.setAttribute('aria-hidden', 'true');
+          parent.appendChild(tip);
+        }
+        tip.textContent = 'Phone number must be at least 7 digits.';
+        
+        requestAnimationFrame(function() {
+          void tip.offsetWidth; // Force reflow
+          tip.classList.add('cf7-animate-in');
+        });
+      } else if (digits.length >= 7 || digits.length === 0) {
+        target.classList.remove('wpcf7-not-valid');
+        target.removeAttribute('aria-invalid');
+        if (tip) {
+          tip.classList.remove('cf7-animate-in');
+          setTimeout(() => {
+            if (!tip.classList.contains('cf7-animate-in')) {
+              tip.remove();
+            }
+          }, 300);
+        }
       }
     }
   });
@@ -341,3 +392,78 @@ function submitForm(e) {
   return false;
 }
 window.submitForm = submitForm;
+
+/* ---------- Contact Form 7 custom message handlers ---------- */
+// Success
+document.addEventListener('wpcf7mailsent', function(event) {
+  var form = event.target;
+  var msg = form.querySelector('.wpcf7-response-output');
+  if (!msg) return;
+
+  if (!msg.querySelector('.cf7-check-icon')) {
+    msg.insertAdjacentHTML('afterbegin',
+      '<svg class="cf7-check-icon" width="20" height="20" viewBox="0 0 24 24" style="flex-shrink:0; margin-right:8px;">' +
+      '<circle cx="12" cy="12" r="11" fill="none" stroke="currentColor" stroke-width="2"/>' +
+      '<path d="M7 12.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '</svg>'
+    );
+  }
+
+  // Remove any error icons if they exist from previous attempts
+  var errIcon = msg.querySelector('.cf7-error-icon');
+  if (errIcon) errIcon.remove();
+
+  requestAnimationFrame(function() {
+    void msg.offsetWidth; // Force reflow so display: flex is registered
+    msg.classList.add('cf7-animate-in');
+  });
+}, false);
+
+// Validation error (fields missing/invalid)
+document.addEventListener('wpcf7invalid', function(event) {
+  var form = event.target;
+  var msg = form.querySelector('.wpcf7-response-output');
+  if (!msg) return;
+
+  if (!msg.querySelector('.cf7-error-icon')) {
+    msg.insertAdjacentHTML('afterbegin',
+      '<svg class="cf7-error-icon" width="20" height="20" viewBox="0 0 24 24" style="flex-shrink:0; margin-right:8px;">' +
+      '<circle cx="12" cy="12" r="11" fill="none" stroke="currentColor" stroke-width="2"/>' +
+      '<line x1="12" y1="7" x2="12" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' +
+      '<circle cx="12" cy="16.5" r="1.2" fill="currentColor"/>' +
+      '</svg>'
+    );
+  }
+
+  // Remove any success icons if they exist from previous attempts
+  var successIcon = msg.querySelector('.cf7-check-icon');
+  if (successIcon) successIcon.remove();
+
+  requestAnimationFrame(function() {
+    void msg.offsetWidth; // Force reflow so display: flex is registered
+    msg.classList.add('cf7-animate-in', 'cf7-shake');
+  });
+
+  // Also fade in each individual field tooltip
+  form.querySelectorAll('.wpcf7-not-valid-tip').forEach(function(tip, i) {
+    setTimeout(function() {
+      tip.classList.add('cf7-animate-in');
+    }, i * 60);
+  });
+}, false);
+
+// Mail failed (server-side error, not validation) — reuses the same styling
+document.addEventListener('wpcf7mailfailed', function(event) {
+  var form = event.target;
+  var msg = form.querySelector('.wpcf7-response-output');
+  if (!msg) return;
+
+  // Remove any success icons if they exist from previous attempts
+  var successIcon = msg.querySelector('.cf7-check-icon');
+  if (successIcon) successIcon.remove();
+
+  requestAnimationFrame(function() {
+    void msg.offsetWidth; // Force reflow so display: flex is registered
+    msg.classList.add('cf7-animate-in', 'cf7-shake');
+  });
+}, false);

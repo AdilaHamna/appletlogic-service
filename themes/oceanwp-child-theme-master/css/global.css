@@ -1093,3 +1093,100 @@ div.mce_inline_error {
 #mce-success-response {
   color: var(--cyan) !important;
 }
+
+/* ---------- Contact Form 7 custom success/error message styles ---------- */
+/* Shared base for both messages */
+.wpcf7 form .wpcf7-response-output {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px !important;
+  margin: 20px 0 0 0 !important;
+  border-radius: 12px !important;
+  border: 1px solid transparent !important;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  opacity: 0;
+  transform: translateY(12px) scale(0.96);
+  transition: opacity 0.35s ease-out, transform 0.35s ease-out;
+}
+
+/* Display response output when form has status classes */
+.wpcf7 form.sent .wpcf7-response-output,
+.wpcf7 form.invalid .wpcf7-response-output,
+.wpcf7 form.unaccepted .wpcf7-response-output,
+.wpcf7 form.failed .wpcf7-response-output {
+  display: flex !important;
+}
+
+.wpcf7 form .wpcf7-response-output.cf7-animate-in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Success message */
+.wpcf7 form.sent .wpcf7-response-output {
+  border-color: #1D9E75 !important;
+  background: rgba(29, 158, 117, 0.12) !important;
+  color: #F1F5F3 !important;
+}
+
+/* Error message (validation) */
+.wpcf7 form.invalid .wpcf7-response-output,
+.wpcf7 form.unaccepted .wpcf7-response-output {
+  border-color: #E24B4A !important;
+  background: rgba(226, 75, 74, 0.12) !important;
+  color: #FDEDED !important;
+}
+
+/* Server-side send failure */
+.wpcf7 form.failed .wpcf7-response-output {
+  border-color: #E24B4A !important;
+  background: rgba(226, 75, 74, 0.12) !important;
+  color: #FDEDED !important;
+}
+
+/* Icon colors */
+.cf7-check-icon circle, .cf7-check-icon path { stroke: #5DCAA5; }
+.cf7-error-icon circle, .cf7-error-icon line, .cf7-error-icon circle[r="1.2"] { stroke: #F09595; fill: #F09595; }
+
+/* Success checkmark draw */
+.cf7-check-icon circle {
+  stroke-dasharray: 69;
+  stroke-dashoffset: 69;
+  transition: stroke-dashoffset 0.5s ease-out 0.1s;
+}
+.cf7-check-icon path {
+  stroke-dasharray: 16;
+  stroke-dashoffset: 16;
+  transition: stroke-dashoffset 0.35s ease-out 0.55s;
+}
+.cf7-animate-in .cf7-check-icon circle,
+.cf7-animate-in .cf7-check-icon path {
+  stroke-dashoffset: 0;
+}
+
+/* Error shake */
+@keyframes cf7-shake {
+  0%   { transform: translateX(0); }
+  20%  { transform: translateX(-6px); }
+  40%  { transform: translateX(5px); }
+  60%  { transform: translateX(-4px); }
+  80%  { transform: translateX(3px); }
+  100% { transform: translateX(0); }
+}
+.cf7-shake {
+  animation: cf7-shake 0.4s ease-in-out 0.35s;
+}
+
+/* Individual field error tooltips */
+.wpcf7-not-valid-tip {
+  color: #F09595 !important;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+.wpcf7-not-valid-tip.cf7-animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}

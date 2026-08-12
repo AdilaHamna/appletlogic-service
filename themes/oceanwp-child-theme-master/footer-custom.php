@@ -86,7 +86,7 @@ $SERVICES = function_exists('appletlogic_get_services') ? appletlogic_get_servic
     </div>
     <div class="ft-bottom">
       <span>© <?php echo date('Y'); ?> AppletLogic Technologies LLP. All rights reserved.</span>
-      <span>Kochi · Kerala · India · info@gmail.com</span>
+      <span>Calicut · Kerala · India · info@gmail.com</span>
     </div>
   </div>
 </footer>

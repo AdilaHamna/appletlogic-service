@@ -34,45 +34,46 @@ function get_custom_page_link_by_template($template_name, $fallback_slug) {
 function appletlogic_enqueue_custom_styles() {
     // Check templates and load styling/scripts
     $is_custom_template = false;
+    $ver = '1.0.2';
 
     if ( is_page_template( 'templates/template-home.php' ) ) {
-        wp_enqueue_style( 'appletlogic-global', get_stylesheet_directory_uri() . '/css/global.css', array(), '1.0' );
-        wp_enqueue_style( 'appletlogic-home', get_stylesheet_directory_uri() . '/css/home.css', array( 'appletlogic-global' ), '1.0' );
-        wp_enqueue_style( 'appletlogic-service', get_stylesheet_directory_uri() . '/css/service.css', array( 'appletlogic-global' ), '1.0' );
-        wp_enqueue_style( 'appletlogic-portfolio', get_stylesheet_directory_uri() . '/css/portfolio.css', array( 'appletlogic-global' ), '1.0' );
-        wp_enqueue_script( 'appletlogic-global-js', get_stylesheet_directory_uri() . '/js/global.js', array(), '1.0', true );
-        wp_enqueue_script( 'appletlogic-home-js', get_stylesheet_directory_uri() . '/js/home.js', array( 'appletlogic-global-js' ), '1.0', true );
+        wp_enqueue_style( 'appletlogic-global', get_stylesheet_directory_uri() . '/css/global.css', array(), $ver );
+        wp_enqueue_style( 'appletlogic-home', get_stylesheet_directory_uri() . '/css/home.css', array( 'appletlogic-global' ), $ver );
+        wp_enqueue_style( 'appletlogic-service', get_stylesheet_directory_uri() . '/css/service.css', array( 'appletlogic-global' ), $ver );
+        wp_enqueue_style( 'appletlogic-portfolio', get_stylesheet_directory_uri() . '/css/portfolio.css', array( 'appletlogic-global' ), $ver );
+        wp_enqueue_script( 'appletlogic-global-js', get_stylesheet_directory_uri() . '/js/global.js', array(), $ver, true );
+        wp_enqueue_script( 'appletlogic-home-js', get_stylesheet_directory_uri() . '/js/home.js', array( 'appletlogic-global-js' ), $ver, true );
         $is_custom_template = true;
     } elseif ( is_page_template( 'templates/template-service.php' ) || is_singular( 'service' ) ) {
-        wp_enqueue_style( 'appletlogic-global', get_stylesheet_directory_uri() . '/css/global.css', array(), '1.0' );
-        wp_enqueue_style( 'appletlogic-service', get_stylesheet_directory_uri() . '/css/service.css', array( 'appletlogic-global' ), '1.0' );
-        wp_enqueue_script( 'appletlogic-global-js', get_stylesheet_directory_uri() . '/js/global.js', array(), '1.0', true );
+        wp_enqueue_style( 'appletlogic-global', get_stylesheet_directory_uri() . '/css/global.css', array(), $ver );
+        wp_enqueue_style( 'appletlogic-service', get_stylesheet_directory_uri() . '/css/service.css', array( 'appletlogic-global' ), $ver );
+        wp_enqueue_script( 'appletlogic-global-js', get_stylesheet_directory_uri() . '/js/global.js', array(), $ver, true );
         $is_custom_template = true;
     } elseif ( is_page_template( 'templates/template-industries.php' ) ) {
-        wp_enqueue_style( 'appletlogic-global', get_stylesheet_directory_uri() . '/css/global.css', array(), '1.0' );
-        wp_enqueue_style( 'appletlogic-industries', get_stylesheet_directory_uri() . '/css/industries.css', array( 'appletlogic-global' ), '1.0' );
-        wp_enqueue_style( 'appletlogic-home', get_stylesheet_directory_uri() . '/css/home.css', array( 'appletlogic-global' ), '1.0' ); // Testimonials track slider CSS is defined in home.css
-        wp_enqueue_script( 'appletlogic-global-js', get_stylesheet_directory_uri() . '/js/global.js', array(), '1.0', true );
+        wp_enqueue_style( 'appletlogic-global', get_stylesheet_directory_uri() . '/css/global.css', array(), $ver );
+        wp_enqueue_style( 'appletlogic-industries', get_stylesheet_directory_uri() . '/css/industries.css', array( 'appletlogic-global' ), $ver );
+        wp_enqueue_style( 'appletlogic-home', get_stylesheet_directory_uri() . '/css/home.css', array( 'appletlogic-global' ), $ver ); // Testimonials track slider CSS is defined in home.css
+        wp_enqueue_script( 'appletlogic-global-js', get_stylesheet_directory_uri() . '/js/global.js', array(), $ver, true );
         $is_custom_template = true;
     } elseif ( is_page_template( 'templates/template-portfolio.php' ) ) {
-        wp_enqueue_style( 'appletlogic-global', get_stylesheet_directory_uri() . '/css/global.css', array(), '1.0' );
-        wp_enqueue_style( 'appletlogic-portfolio', get_stylesheet_directory_uri() . '/css/portfolio.css', array( 'appletlogic-global' ), '1.0' );
-        wp_enqueue_script( 'appletlogic-global-js', get_stylesheet_directory_uri() . '/js/global.js', array(), '1.0', true );
+        wp_enqueue_style( 'appletlogic-global', get_stylesheet_directory_uri() . '/css/global.css', array(), $ver );
+        wp_enqueue_style( 'appletlogic-portfolio', get_stylesheet_directory_uri() . '/css/portfolio.css', array( 'appletlogic-global' ), $ver );
+        wp_enqueue_script( 'appletlogic-global-js', get_stylesheet_directory_uri() . '/js/global.js', array(), $ver, true );
         $is_custom_template = true;
     } elseif ( is_page_template( 'templates/template-why-us.php' ) ) {
-        wp_enqueue_style( 'appletlogic-global', get_stylesheet_directory_uri() . '/css/global.css', array(), '1.0' );
-        wp_enqueue_style( 'appletlogic-why-us', get_stylesheet_directory_uri() . '/css/why-us.css', array( 'appletlogic-global' ), '1.0' );
-        wp_enqueue_style( 'appletlogic-home', get_stylesheet_directory_uri() . '/css/home.css', array( 'appletlogic-global' ), '1.0' ); // Testimonials and counters CSS are defined in home.css
-        wp_enqueue_script( 'appletlogic-global-js', get_stylesheet_directory_uri() . '/js/global.js', array(), '1.0', true );
+        wp_enqueue_style( 'appletlogic-global', get_stylesheet_directory_uri() . '/css/global.css', array(), $ver );
+        wp_enqueue_style( 'appletlogic-why-us', get_stylesheet_directory_uri() . '/css/why-us.css', array( 'appletlogic-global' ), $ver );
+        wp_enqueue_style( 'appletlogic-home', get_stylesheet_directory_uri() . '/css/home.css', array( 'appletlogic-global' ), $ver ); // Testimonials and counters CSS are defined in home.css
+        wp_enqueue_script( 'appletlogic-global-js', get_stylesheet_directory_uri() . '/js/global.js', array(), $ver, true );
         $is_custom_template = true;
     } elseif ( is_page_template( 'templates/template-contact.php' ) ) {
-        wp_enqueue_style( 'appletlogic-global', get_stylesheet_directory_uri() . '/css/global.css', array(), '1.0' );
-        wp_enqueue_style( 'appletlogic-contact', get_stylesheet_directory_uri() . '/css/contact.css', array( 'appletlogic-global' ), '1.0' );
-        wp_enqueue_script( 'appletlogic-global-js', get_stylesheet_directory_uri() . '/js/global.js', array(), '1.0', true );
+        wp_enqueue_style( 'appletlogic-global', get_stylesheet_directory_uri() . '/css/global.css', array(), $ver );
+        wp_enqueue_style( 'appletlogic-contact', get_stylesheet_directory_uri() . '/css/contact.css', array( 'appletlogic-global' ), $ver );
+        wp_enqueue_script( 'appletlogic-global-js', get_stylesheet_directory_uri() . '/js/global.js', array(), $ver, true );
         $is_custom_template = true;
     } elseif ( is_404() ) {
-        wp_enqueue_style( 'appletlogic-global', get_stylesheet_directory_uri() . '/css/global.css', array(), '1.0' );
-        wp_enqueue_script( 'appletlogic-global-js', get_stylesheet_directory_uri() . '/js/global.js', array(), '1.0', true );
+        wp_enqueue_style( 'appletlogic-global', get_stylesheet_directory_uri() . '/css/global.css', array(), $ver );
+        wp_enqueue_script( 'appletlogic-global-js', get_stylesheet_directory_uri() . '/js/global.js', array(), $ver, true );
         $is_custom_template = true;
     }
 
@@ -178,4 +179,29 @@ add_filter( 'wpcf7_form_tag', 'appletlogic_populate_cf7_service_name', 10, 2 );
  * Custom Post Types and Meta Fields for Services and Testimonials.
  */
 require_once get_stylesheet_directory() . '/inc/cpt-fields.php';
+
+/**
+ * Custom validation filter for Contact Form 7 tel/phone fields (minimum 7 digits).
+ */
+function appletlogic_cf7_tel_validation_filter( $result, $tag ) {
+    $tag = new WPCF7_FormTag( $tag );
+    $name = $tag->name;
+
+    // Check if the field name contains 'intl_tel' or 'phone', or if the field type is tel
+    if ( $tag->type === 'tel' || $tag->type === 'tel*' || strpos( $name, 'intl_tel' ) === 0 || strpos( $name, 'phone' ) !== false ) {
+        $value = isset( $_POST[$name] ) ? trim( $_POST[$name] ) : '';
+        if ( ! empty( $value ) ) {
+            // Strip everything except digits to count them
+            $digits = preg_replace( '/[^0-9]/', '', $value );
+            if ( strlen( $digits ) < 7 ) {
+                $result->invalidate( $tag, 'Phone number must be at least 7 digits.' );
+            }
+        }
+    }
+    return $result;
+}
+add_filter( 'wpcf7_validate_tel', 'appletlogic_cf7_tel_validation_filter', 20, 2 );
+add_filter( 'wpcf7_validate_tel*', 'appletlogic_cf7_tel_validation_filter', 20, 2 );
+add_filter( 'wpcf7_validate_text', 'appletlogic_cf7_tel_validation_filter', 20, 2 );
+add_filter( 'wpcf7_validate_text*', 'appletlogic_cf7_tel_validation_filter', 20, 2 );
 
