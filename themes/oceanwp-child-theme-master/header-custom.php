@@ -15,25 +15,16 @@
 <div id="cursor-ring"></div>
 
 <!-- Loader -->
+<?php if ( is_front_page() || is_home() ) : ?>
 <div id="loader">
   <div class="bar"><i id="loadBar"></i></div>
   <span class="pct" id="loadPct">0%</span>
 </div>
+<?php endif; ?>
 
 <!-- Page Transition Curtain -->
-<div id="curtain">
+<div id="curtain" class="in load-state">
   <i></i><i></i><i></i><i></i><i></i>
-  <div class="cl">
-    <svg viewBox="0 0 100 78">
-      <path d="M8 70 L38 6 L50 6 L74 56 L94 56 L94 64 L68 64 L48 20 L22 70 Z" fill="url(#lgm)"/>
-      <defs>
-        <linearGradient id="lgm" x1="0%" y1="100%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#356DFF" />
-          <stop offset="100%" stop-color="#E8434E" />
-        </linearGradient>
-      </defs>
-    </svg>
-  </div>
 </div>
 
 <div id="progress"></div>

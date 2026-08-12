@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // Start curtain transition out
           const curtain = document.getElementById('curtain');
           if (curtain) {
+            curtain.classList.remove('load-state');
             curtain.classList.remove('in');
             curtain.classList.add('out');
             setTimeout(() => curtain.classList.remove('out'), 700);
@@ -32,8 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // If loader doesn't exist, trigger curtain directly
     const curtain = document.getElementById('curtain');
     if (curtain) {
-      curtain.classList.add('out');
-      setTimeout(() => curtain.classList.remove('out'), 700);
+      // Small timeout to ensure DOM renders the initial paint covered by the curtain
+      setTimeout(() => {
+        curtain.classList.remove('load-state');
+        curtain.classList.remove('in');
+        curtain.classList.add('out');
+        setTimeout(() => curtain.classList.remove('out'), 700);
+      }, 50);
     }
   }
 
@@ -62,6 +68,62 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.classList.toggle('menu-open');
     };
   }
+
+  /* ============================================================
+     2.5. PAGE EXIT TRANSITION INTERCEPTOR
+     ============================================================ */
+  document.addEventListener('click', function (e) {
+    const link = e.target.closest('a');
+    if (!link) return;
+    
+    const href = link.getAttribute('href');
+    if (!href) return;
+    
+    // Skip external links, hash links, mailto, tel, target="_blank", or modifier keys
+    if (
+      href.startsWith('#') ||
+      href.startsWith('mailto:') ||
+      href.startsWith('tel:') ||
+      link.getAttribute('target') === '_blank' ||
+      e.metaKey || e.ctrlKey || e.shiftKey || e.altKey
+    ) {
+      return;
+    }
+    
+    // Verify if the link is internal to our domain
+    try {
+      const url = new URL(href, window.location.href);
+      if (url.origin !== window.location.origin) {
+        return;
+      }
+    } catch (err) {
+      // If parsing fails, it is likely a relative internal path, so let it proceed.
+    }
+    
+    // Prevent default browser navigation
+    e.preventDefault();
+    
+    const curtain = document.getElementById('curtain');
+    if (curtain) {
+      // Close mobile menu if open
+      if (burger && navLinks) {
+        burger.classList.remove('open');
+        navLinks.classList.remove('open');
+        document.body.classList.remove('menu-open');
+      }
+      
+      // Start exit transition
+      curtain.classList.remove('out');
+      curtain.classList.add('in');
+      
+      // Redirect after transition completes (~500ms)
+      setTimeout(function () {
+        window.location.href = href;
+      }, 500);
+    } else {
+      window.location.href = href;
+    }
+  });
 
   /* ============================================================
      3. CUSTOM CURSOR & PARALLAX GLOW

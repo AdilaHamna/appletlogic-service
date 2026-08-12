@@ -209,6 +209,16 @@ body.cursor-hover #cursor-ring {
   animation: curOut .55s var(--ease) forwards;
 }
 
+#curtain.load-state i {
+  transform: scaleY(1) !important;
+  animation: none !important;
+}
+
+#curtain.load-state .cl {
+  opacity: 0 !important;
+  transition: none !important;
+}
+
 #curtain i:nth-child(2) {
   animation-delay: .06s;
 }
@@ -801,22 +811,50 @@ footer {
   background: rgba(232, 67, 78, .1);
   transform: translateY(-3px);
 }
-
 .news input {
-  width: 100%;
-  background: var(--coal);
-  border: 1px solid var(--line);
-  border-radius: 11px;
-  padding: 13px 16px;
-  color: var(--text);
-  font-family: var(--font);
-  font-size: .85rem;
-  margin-bottom: 12px;
+  width: 100% !important;
+  background: var(--panel) !important;
+  border: 1px solid var(--line-2) !important;
+  border-radius: 14px !important;
+  padding: 14px 20px !important;
+  color: var(--text) !important;
+  font-family: var(--font) !important;
+  font-size: .9rem !important;
+  margin-bottom: 14px !important;
+  height: 50px !important;
+  transition: border-color 0.3s, box-shadow 0.3s !important;
 }
 
 .news input:focus {
-  outline: none;
-  border-color: var(--crimson);
+  outline: none !important;
+  border-color: var(--cyan) !important;
+  box-shadow: 0 0 0 3px rgba(39, 215, 255, .15) !important;
+}
+
+.news button[type="submit"]#mc-embedded-subscribe {
+  background: transparent !important;
+  border: 1px solid var(--line-2) !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+  height: 50px !important;
+  width: 100% !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: var(--font) !important;
+  font-weight: 500 !important;
+  font-size: .92rem !important;
+  cursor: pointer !important;
+  transition: all .25s ease !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.news button[type="submit"]#mc-embedded-subscribe:hover {
+  background: var(--blue) !important;
+  border-color: var(--blue) !important;
+  color: #fff !important;
 }
 
 .ft-bottom {
