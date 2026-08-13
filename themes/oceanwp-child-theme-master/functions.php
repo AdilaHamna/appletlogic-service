@@ -34,7 +34,7 @@ function get_custom_page_link_by_template($template_name, $fallback_slug) {
 function appletlogic_enqueue_custom_styles() {
     // Check templates and load styling/scripts
     $is_custom_template = false;
-    $ver = '1.1.3';
+    $ver = '1.1.8';
 
     if ( is_page_template( 'templates/template-home.php' ) ) {
         wp_enqueue_style( 'appletlogic-global', get_stylesheet_directory_uri() . '/css/global.css', array(), $ver );

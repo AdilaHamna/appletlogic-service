@@ -23,7 +23,7 @@ $SERVICES = function_exists('appletlogic_get_services') ? appletlogic_get_servic
     <div class="ft-grid">
       <div class="ft-about">
         <a class="logo" href="<?php echo esc_url($home_url); ?>">
-          <img src="/wp-content/uploads/2026/08/WhatsApp-Image-2026-06-05-at-10.51.04-AM-2-1.svg" alt="AppletLogic Logo" style="height: 38px; width: auto; vertical-align: middle;">
+          <img src="/wp-content/uploads/2026/08/appletlogic-logo-new.png" alt="AppletLogic Logo" style="height: 38px; width: auto; vertical-align: middle;">
         </a>
         <p>AppletLogic Technologies LLP — a premium digital transformation partner delivering AI, enterprise software, cloud, and automation at a global standard.</p>
         <div class="socials">

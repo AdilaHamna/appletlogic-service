@@ -208,7 +208,7 @@ if ($current_service):
     </div>
   </section>
 
-  <section style="padding-bottom:110px">
+  <section style="padding-bottom:80px">
     <div class="wrap">
       <div class="svc-grid" style="margin-top:0">
         <?php

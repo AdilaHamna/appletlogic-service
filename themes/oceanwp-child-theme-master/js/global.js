@@ -67,6 +67,24 @@ document.addEventListener('DOMContentLoaded', () => {
       navLinks.classList.toggle('open');
       document.body.classList.toggle('menu-open');
     };
+
+    // Close mobile menu on hash links (capturing phase to prevent theme scroll-effect scripts from stopping propagation)
+    navLinks.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (!link) return;
+      const href = link.getAttribute('href');
+      if (!href) return;
+      try {
+        const url = new URL(href, window.location.href);
+        const path1 = url.pathname.replace(/\/$/, '');
+        const path2 = window.location.pathname.replace(/\/$/, '');
+        if (path1 === path2 && url.hash) {
+          burger.classList.remove('open');
+          navLinks.classList.remove('open');
+          document.body.classList.remove('menu-open');
+        }
+      } catch (err) {}
+    }, { capture: true });
   }
 
   /* ============================================================
@@ -95,6 +113,14 @@ document.addEventListener('DOMContentLoaded', () => {
       link.getAttribute('target') === '_blank' ||
       e.metaKey || e.ctrlKey || e.shiftKey || e.altKey
     ) {
+      if (href.startsWith('#')) {
+        // Close mobile menu if open
+        if (burger && navLinks) {
+          burger.classList.remove('open');
+          navLinks.classList.remove('open');
+          document.body.classList.remove('menu-open');
+        }
+      }
       return;
     }
 
@@ -104,7 +130,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (url.origin !== window.location.origin) {
         return;
       }
-      if (url.pathname === window.location.pathname) {
+      
+      // Normalize pathnames by removing trailing slashes for comparison
+      const path1 = url.pathname.replace(/\/$/, '');
+      const path2 = window.location.pathname.replace(/\/$/, '');
+      if (path1 === path2) {
         if (url.hash) {
           // Close mobile menu if open
           if (burger && navLinks) {

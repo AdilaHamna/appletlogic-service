@@ -7,7 +7,7 @@
 }
 
 .svc {
-  padding: 34px;
+  padding: 20px;
   cursor: pointer;
 }
 
@@ -427,7 +427,9 @@
   margin-bottom: 8px;
 }
 
-.field input, .field select, .field textarea {
+.field input,
+.field select,
+.field textarea {
   width: 100%;
   background: var(--black);
   border: 1px solid var(--line);
@@ -444,7 +446,9 @@
   min-height: 110px;
 }
 
-.field input:focus, .field select:focus, .field textarea:focus {
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
   outline: none;
   border-color: var(--crimson);
   box-shadow: 0 0 0 3px rgba(232, 67, 78, .14);
@@ -525,6 +529,7 @@
   from {
     transform: scale(0);
   }
+
   to {
     transform: scale(1);
   }
@@ -535,18 +540,24 @@
   .svc-grid {
     grid-template-columns: 1fr;
   }
+
   .ben-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .cs-band {
     grid-template-columns: 1fr;
   }
 }
 
 @media(max-width:760px) {
-  .ps-grid, .ct-grid, .ben-grid {
+
+  .ps-grid,
+  .ct-grid,
+  .ben-grid {
     grid-template-columns: 1fr;
   }
+
   .f-row {
     grid-template-columns: 1fr;
   }

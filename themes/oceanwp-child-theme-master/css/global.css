@@ -24,6 +24,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {
@@ -33,6 +35,7 @@ body {
   font-weight: 300;
   line-height: 1.65;
   overflow-x: hidden;
+  width: 100%;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -671,10 +674,14 @@ nav.solid::before {
 /* ---------- page shell ---------- */
 #app {
   min-height: 100vh;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .page {
   animation: pageIn .7s var(--ease);
+  overflow-x: hidden;
+  width: 100%;
 }
 
 @keyframes pageIn {
@@ -811,6 +818,7 @@ footer {
   background: rgba(232, 67, 78, .1);
   transform: translateY(-3px);
 }
+
 .news input {
   width: 100% !important;
   background: var(--panel) !important;
@@ -999,6 +1007,14 @@ footer {
   .logo svg {
     height: 55px !important;
   }
+
+  .rv-l {
+    transform: translateX(-15px);
+  }
+
+  .rv-r {
+    transform: translateX(15px);
+  }
 }
 
 @media(prefers-reduced-motion:reduce) {
@@ -1103,14 +1119,20 @@ footer {
   color: #101013 !important;
 }
 
+.intl-tel-input {
+  display: unset !important;
+}
+
 /* Mailchimp Newsletter form styling overrides */
 #mc_embed_signup form {
   margin: 0;
   padding: 0;
 }
+
 #mc_embed_signup input.mce_inline_error {
   border-color: var(--crimson) !important;
 }
+
 div.mce_inline_error {
   color: var(--crimson) !important;
   font-size: 0.8rem !important;
@@ -1119,15 +1141,18 @@ div.mce_inline_error {
   font-weight: normal !important;
   padding: 0 !important;
 }
+
 #mce-error-response,
 #mce-success-response {
   font-size: 0.82rem;
   margin: -6px 0 12px 4px;
   line-height: 1.4;
 }
+
 #mce-error-response {
   color: var(--crimson) !important;
 }
+
 #mce-success-response {
   color: var(--cyan) !important;
 }
@@ -1185,8 +1210,17 @@ div.mce_inline_error {
 }
 
 /* Icon colors */
-.cf7-check-icon circle, .cf7-check-icon path { stroke: #5DCAA5; }
-.cf7-error-icon circle, .cf7-error-icon line, .cf7-error-icon circle[r="1.2"] { stroke: #F09595; fill: #F09595; }
+.cf7-check-icon circle,
+.cf7-check-icon path {
+  stroke: #5DCAA5;
+}
+
+.cf7-error-icon circle,
+.cf7-error-icon line,
+.cf7-error-icon circle[r="1.2"] {
+  stroke: #F09595;
+  fill: #F09595;
+}
 
 /* Success checkmark draw */
 .cf7-check-icon circle {
@@ -1194,11 +1228,13 @@ div.mce_inline_error {
   stroke-dashoffset: 69;
   transition: stroke-dashoffset 0.5s ease-out 0.1s;
 }
+
 .cf7-check-icon path {
   stroke-dasharray: 16;
   stroke-dashoffset: 16;
   transition: stroke-dashoffset 0.35s ease-out 0.55s;
 }
+
 .cf7-animate-in .cf7-check-icon circle,
 .cf7-animate-in .cf7-check-icon path {
   stroke-dashoffset: 0;
@@ -1206,13 +1242,31 @@ div.mce_inline_error {
 
 /* Error shake */
 @keyframes cf7-shake {
-  0%   { transform: translateX(0); }
-  20%  { transform: translateX(-6px); }
-  40%  { transform: translateX(5px); }
-  60%  { transform: translateX(-4px); }
-  80%  { transform: translateX(3px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-6px);
+  }
+
+  40% {
+    transform: translateX(5px);
+  }
+
+  60% {
+    transform: translateX(-4px);
+  }
+
+  80% {
+    transform: translateX(3px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
+
 .cf7-shake {
   animation: cf7-shake 0.4s ease-in-out 0.35s;
 }
@@ -1224,6 +1278,7 @@ div.mce_inline_error {
   transform: translateY(-4px);
   transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 }
+
 .wpcf7-not-valid-tip.cf7-animate-in {
   opacity: 1;
   transform: translateY(0);
@@ -1387,4 +1442,32 @@ div.mce_inline_error {
 
 #proposal-form {
   scroll-margin-top: 120px !important;
+}
+
+/* ---------- Mobile Responsive Overrides ---------- */
+@media (max-width: 768px) {
+  .hero-ctas {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    align-items: stretch !important;
+    width: fit-content !important;
+  }
+
+  .hero-ctas .btn {
+    width: 100% !important;
+    justify-content: center !important;
+    margin: 0 !important;
+  }
+}
+
+@media (max-width: 580px) {
+  .booking-modal-card {
+    padding: 30px 20px !important;
+  }
+
+  .booking-row {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
 }

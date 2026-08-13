@@ -191,13 +191,16 @@
   }
 }
 
-/* ---------- responsive ---------- */
 @media(max-width:760px) {
   .ct-grid {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
   .f-row {
     grid-template-columns: 1fr;
+  }
+  .ct-form {
+    padding: 24px 18px !important;
   }
 }
 
